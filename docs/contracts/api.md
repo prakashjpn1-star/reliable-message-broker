@@ -26,3 +26,7 @@ Suggested endpoints; equivalent documented contracts are acceptable:
 Example publish body: `{"producerId":"demo-producer","route":"documents","routingKey":"transform","payload":{"fixtureId":"doc-001"},"ttlSeconds":300}`. Idempotency key is an operation-scoped header. Claim returns IDs, immutable payload reference, generation, expiry and processing deadline.
 
 Use 400 for malformed JSON, 422 for invalid contracts, 403 for denied roles, 404 for missing resources, 409 for stale authority/revision/key conflicts, 413 for oversized input and 503 for unavailable storage. Errors include code/message/correlation ID and bounded details. Lists default to 50, maximum 200, with stable cursor ordering. Empty polls use a fresh key after a known response; transport retries preserve the previous key.
+
+## Machine-readable companions
+
+The [schema catalog](../../schemas/README.md) and [worked examples](../../examples/README.md) define proposed request shapes. They add structural checks while the accepting transaction retains responsibility for revisions, authority and state-dependent rules.

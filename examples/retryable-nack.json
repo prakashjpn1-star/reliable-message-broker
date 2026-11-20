@@ -1,0 +1,10 @@
+{
+  "action": "NACK",
+  "entryId": "entry-demo-001",
+  "deliveryId": "delivery-demo-001",
+  "consumerId": "consumer-instance-001",
+  "generation": 1,
+  "errorCode": "SYNTHETIC_TRANSIENT",
+  "reason": "The test fixture fails its first two attempts.",
+  "retryable": true
+}

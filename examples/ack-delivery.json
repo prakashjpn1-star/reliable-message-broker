@@ -1,0 +1,7 @@
+{
+  "action": "ACK",
+  "entryId": "entry-demo-001",
+  "deliveryId": "delivery-demo-001",
+  "consumerId": "consumer-instance-001",
+  "generation": 1
+}

@@ -1,0 +1,9 @@
+{
+  "producerId": "demo-producer",
+  "route": "documents",
+  "routingKey": "transform",
+  "payload": {
+    "fixtureId": "doc-001"
+  },
+  "ttlSeconds": 300
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/prakashjpn1-star/reliable-message-broker/schemas/publish-request.schema.json",
+  "title": "Durable publish request",
+  "type": "object",
+  "properties": {
+    "producerId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "route": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "routingKey": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "fixtureId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "fixtureId"
+      ],
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "maxProperties": 32,
+      "additionalProperties": {
+        "type": [
+          "string",
+          "integer",
+          "boolean",
+          "null"
+        ]
+      }
+    },
+    "ttlSeconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    }
+  },
+  "required": [
+    "producerId",
+    "route",
+    "routingKey",
+    "payload"
+  ],
+  "additionalProperties": false
+}

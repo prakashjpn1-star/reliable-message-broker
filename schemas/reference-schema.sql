@@ -1,0 +1,23 @@
+-- BROKER STORE. Consumer-effect section belongs in its own consumer database.
+PRAGMA foreign_keys=ON;
+CREATE TABLE queues(id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, revision INTEGER NOT NULL CHECK(revision>0), paused INTEGER NOT NULL CHECK(paused IN(0,1)), draining INTEGER NOT NULL CHECK(draining IN(0,1)), deleted INTEGER NOT NULL DEFAULT 0 CHECK(deleted IN(0,1)), capacity INTEGER NOT NULL CHECK(capacity>0), max_in_flight INTEGER NOT NULL CHECK(max_in_flight>0), policy_json TEXT NOT NULL CHECK(json_valid(policy_json)), next_audit_sequence INTEGER NOT NULL CHECK(next_audit_sequence>0));
+CREATE TABLE routes(id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, mode TEXT NOT NULL CHECK(mode IN('EXACT_KEY','FAN_OUT')), current_version INTEGER NOT NULL CHECK(current_version>0));
+CREATE TABLE binding_versions(route_id TEXT NOT NULL REFERENCES routes(id), version INTEGER NOT NULL CHECK(version>0), digest TEXT NOT NULL, PRIMARY KEY(route_id,version));
+CREATE TABLE bindings(route_id TEXT NOT NULL, version INTEGER NOT NULL, queue_id TEXT NOT NULL REFERENCES queues(id), routing_key TEXT NOT NULL, PRIMARY KEY(route_id,version,queue_id,routing_key), FOREIGN KEY(route_id,version) REFERENCES binding_versions(route_id,version));
+CREATE TABLE messages(id TEXT PRIMARY KEY, producer_id TEXT NOT NULL, request_key TEXT NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json)), payload_digest TEXT NOT NULL, metadata_json TEXT NOT NULL CHECK(json_valid(metadata_json)), accepted_at INTEGER NOT NULL, original_expires_at INTEGER, UNIQUE(producer_id,request_key));
+CREATE TABLE queue_entries(id TEXT PRIMARY KEY, message_id TEXT NOT NULL REFERENCES messages(id), queue_id TEXT NOT NULL REFERENCES queues(id), origin TEXT NOT NULL CHECK(origin IN('PUBLISH','REDRIVE')), root_entry_id TEXT NOT NULL, parent_entry_id TEXT REFERENCES queue_entries(id), redrive_depth INTEGER NOT NULL CHECK(redrive_depth>=0), state TEXT NOT NULL CHECK(state IN('READY','IN_FLIGHT','RETRY_WAIT','ACKED','DEAD_LETTERED','EXPIRED')), policy_json TEXT NOT NULL CHECK(json_valid(policy_json)), generation INTEGER NOT NULL CHECK(generation>=0), attempt_count INTEGER NOT NULL CHECK(attempt_count>=0), eligible_at INTEGER NOT NULL, expires_at INTEGER);
+CREATE UNIQUE INDEX one_original_destination ON queue_entries(message_id,queue_id) WHERE origin='PUBLISH';
+CREATE TABLE consumers(id TEXT PRIMARY KEY, capacity INTEGER NOT NULL CHECK(capacity>0), allowed_queues_json TEXT NOT NULL CHECK(json_valid(allowed_queues_json)), last_contact_at INTEGER NOT NULL);
+CREATE TABLE deliveries(id TEXT PRIMARY KEY, entry_id TEXT NOT NULL REFERENCES queue_entries(id), consumer_id TEXT NOT NULL REFERENCES consumers(id), generation INTEGER NOT NULL CHECK(generation>0), attempt_number INTEGER NOT NULL CHECK(attempt_number>0), lease_expires_at INTEGER NOT NULL, processing_deadline_at INTEGER NOT NULL, state TEXT NOT NULL CHECK(state IN('IN_FLIGHT','ACKED','NACK','LOST','EXPIRED')), error_code TEXT, UNIQUE(entry_id,generation), CHECK(lease_expires_at<=processing_deadline_at));
+CREATE UNIQUE INDEX one_active_delivery ON deliveries(entry_id) WHERE state='IN_FLIGHT';
+CREATE TABLE dead_letters(id TEXT PRIMARY KEY, entry_id TEXT NOT NULL UNIQUE REFERENCES queue_entries(id), revision INTEGER NOT NULL CHECK(revision>0), reason TEXT NOT NULL, redriven_entry_id TEXT UNIQUE REFERENCES queue_entries(id));
+CREATE TABLE receipts(actor TEXT NOT NULL, operation TEXT NOT NULL, target TEXT NOT NULL, request_key TEXT NOT NULL, request_digest TEXT NOT NULL, response_json TEXT NOT NULL CHECK(json_valid(response_json)), PRIMARY KEY(actor,operation,target,request_key));
+CREATE TABLE events(queue_id TEXT NOT NULL REFERENCES queues(id), sequence INTEGER NOT NULL CHECK(sequence>0), event_type TEXT NOT NULL, entity_id TEXT NOT NULL, payload_json TEXT NOT NULL CHECK(json_valid(payload_json)), PRIMARY KEY(queue_id,sequence));
+CREATE INDEX ready_entries ON queue_entries(queue_id,eligible_at,id) WHERE state='READY';
+CREATE INDEX retry_due ON queue_entries(eligible_at,id) WHERE state='RETRY_WAIT';
+CREATE INDEX entry_expiry ON queue_entries(expires_at,id) WHERE state IN('READY','RETRY_WAIT','IN_FLIGHT');
+CREATE INDEX delivery_expiry ON deliveries(lease_expires_at,id) WHERE state='IN_FLIGHT';
+-- CONSUMER STORE. This commit is independent of broker ACK.
+CREATE TABLE consumer_effects(queue_entry_id TEXT PRIMARY KEY, result_json TEXT NOT NULL CHECK(json_valid(result_json)), digest TEXT NOT NULL CHECK(length(digest)=64), committed_at INTEGER NOT NULL);
+-- Shared capacity, generation/time checks, lineage caps and terminal immutability
+-- require the domain transaction protocol and migration-level triggers.

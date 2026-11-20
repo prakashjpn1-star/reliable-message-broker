@@ -1,0 +1,13 @@
+{
+  "name": "document-work",
+  "capacity": 10000,
+  "maxInFlight": 4,
+  "visibilitySeconds": 15,
+  "processingDeadlineSeconds": 60,
+  "retry": {
+    "maxAttempts": 3,
+    "initialDelaySeconds": 1,
+    "multiplier": 2,
+    "maxDelaySeconds": 30
+  }
+}

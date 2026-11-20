@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/prakashjpn1-star/reliable-message-broker/schemas/delivery-action.schema.json",
+  "title": "Fenced delivery action envelope",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "entryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "deliveryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "consumerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "action": {
+          "const": "ACK"
+        }
+      },
+      "required": [
+        "entryId",
+        "deliveryId",
+        "consumerId",
+        "generation",
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "entryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "deliveryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "consumerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "action": {
+          "const": "EXTEND"
+        }
+      },
+      "required": [
+        "entryId",
+        "deliveryId",
+        "consumerId",
+        "generation",
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "entryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "deliveryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "consumerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "action": {
+          "const": "NACK"
+        },
+        "errorCode": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "entryId",
+        "deliveryId",
+        "consumerId",
+        "generation",
+        "action",
+        "errorCode",
+        "reason",
+        "retryable"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "$comment": "action selects extend/ack/nack endpoint. The other authority fields are its request body; deliveryId must agree with the route parameter. Idempotency-Key is a header."
+}

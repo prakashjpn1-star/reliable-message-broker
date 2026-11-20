@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/prakashjpn1-star/reliable-message-broker/schemas/redrive-request.schema.json",
+  "title": "Explicit dead-letter redrive request",
+  "type": "object",
+  "properties": {
+    "expectedRevision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "ttlSeconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    }
+  },
+  "required": [
+    "expectedRevision",
+    "reason"
+  ],
+  "additionalProperties": false
+}

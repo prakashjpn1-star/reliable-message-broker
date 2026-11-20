@@ -23,3 +23,7 @@ A message can have independent entries in several queues. A publish receipt prov
 The proposed reference stack is Python with a locally served browser interface and SQLite on local disk, subject to the permitted mirror and desktop verification gate. Runtime communication stays on loopback. No cloud, Docker or real private data is required.
 
 Licensed under [MIT](LICENSE).
+
+## Examples and schemas
+
+See [worked examples](examples/README.md), [JSON Schemas](schemas/README.md), and the [reference database schema](schemas/reference-schema.sql).

@@ -1,0 +1,12 @@
+{
+  "name": "audit-copy",
+  "mode": "FAN_OUT",
+  "bindings": [
+    {
+      "queueId": "audit-a"
+    },
+    {
+      "queueId": "audit-b"
+    }
+  ]
+}

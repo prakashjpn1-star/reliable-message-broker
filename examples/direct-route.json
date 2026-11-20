@@ -1,0 +1,10 @@
+{
+  "name": "documents",
+  "mode": "EXACT_KEY",
+  "bindings": [
+    {
+      "routingKey": "transform",
+      "queueId": "document-work"
+    }
+  ]
+}

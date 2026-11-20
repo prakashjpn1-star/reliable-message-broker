@@ -1,0 +1,7 @@
+{
+  "consumerId": "consumer-instance-001",
+  "queueIds": [
+    "document-work"
+  ],
+  "capacity": 1
+}
