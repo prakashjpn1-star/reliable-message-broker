@@ -1,6 +1,6 @@
 # Operations and performance plan
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+Operations cover readiness, migrations, recovery, backups and resource measurements. Services preserve committed state through ordinary process stops.
 
 ## Metrics backup and retained evidence
 

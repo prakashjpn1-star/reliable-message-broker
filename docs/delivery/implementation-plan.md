@@ -1,6 +1,6 @@
 # Delivery milestones and definition of done
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+Delivery proceeds through runnable milestones with explicit evidence and release gates. Each milestone builds on the guarantees established by the previous one.
 
 ## Session plan
 
@@ -22,4 +22,4 @@ Each milestone may span several sessions. End with runnable behaviour, relevant 
 
 Deliver source/licence notices, local startup scripts, schema migrations, API contracts, fixture generator/expected outputs, browser application, consumer examples, crash harness, acceptance report, measurements, consistent backup/restore instructions and session history.
 
-Before implementation decide the language/framework, one transactional store, canonical serialization, exact capacity/TTL defaults and permitted package versions. Release requires every mandatory acceptance case and repetition gate to pass offline, retained evidence for crashes, and no unresolved defect invalidating the stated guarantees. No programme approval is implied by a completed specification.
+The reference architecture uses Python services, SQLite storage and canonical JSON request digests. Exact framework/library versions and configured capacity/TTL limits remain tracked decisions in the architecture record. Release requires every mandatory acceptance case and repetition gate to pass offline, retained evidence for crashes, and no unresolved defect invalidating the stated guarantees. No programme approval is implied by a completed specification.

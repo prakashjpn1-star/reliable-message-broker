@@ -24,7 +24,7 @@ Publish locks one routing snapshot and all destination admission decisions in on
 
 Use conditional source-state checks, uniqueness constraints and atomic audit/receipt writes. On contention roll back and retry the entire operation under bounded backoff, preserving the key. On uncertain response consult the receipt before repeating work. A stale revision/epoch requires refresh or fresh authority, never a silently rewritten request. Database unavailability stops new confirmations.
 
-## Detailed behavior inherited from the source
+## Required behavior
 
 ## Delivery state machine
 

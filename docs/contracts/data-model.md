@@ -1,6 +1,6 @@
 # Data model and integrity contract
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+The data model separates authoritative state, in-progress work, immutable outcomes and audit history. Constraints preserve identity and prevent conflicting records.
 
 ## Architecture and logical records
 

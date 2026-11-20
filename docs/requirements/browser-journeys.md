@@ -1,6 +1,6 @@
 # Browser journeys and accessibility
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+The browser shows confirmed server state, pending actions and actionable errors. Reloading or opening another tab does not change durable progress.
 
 ## Browser requirements
 

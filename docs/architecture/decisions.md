@@ -2,7 +2,9 @@
 
 ## ADR 1 Local Python services and one database technology
 
-**Proposed, environment gate pending.** Use a supported Python build, a small loopback HTTP API, SQLite through its supported driver, and locally bundled HTML/CSS/JavaScript. Check the supplied mirror before choosing framework, JSON Schema validator, canonicalization library and browser testing versions. Pin versions/hashes/licenses. Separate logical stores may use the same database technology; no cross-store transaction is assumed.
+The reference design uses Python for the services, SQLite for transactional storage, and locally bundled HTML, CSS and JavaScript for the browser. Services communicate through loopback HTTP APIs. Separate logical stores use the same database technology without assuming a transaction across them.
+
+The HTTP framework, validation/canonicalization libraries and exact dependency versions remain open pending the permitted environment inventory. The dependency record will include version pins, hashes, licenses and offline availability. This is a design choice; it is not a claim that those dependencies have already been verified.
 
 ## ADR 2 Serialize canonical mutations
 

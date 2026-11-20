@@ -21,7 +21,7 @@ Read the product requirements for the human problem, then the architecture for t
 | Verification | [Harness and fixtures](testing/harness-and-fixtures.md), [execution report](testing/acceptance-report.md) |
 | Handover | [Backup and restore](operations/backup-restore.md), [status](delivery/status.md) |
 
-The original source is retained in [source](source/Reliable_Message_Broker_Requirements.md). Its programme/ownership clauses describe external gates; they do not instruct this repository to submit forms or claim approval. This baseline is AI-assisted and requires participant review where independent authorship is required.
+The original source is retained in [source](source/Reliable_Message_Broker_Requirements.md). Programme eligibility and authorship remain separate assessments. This baseline is AI-assisted and requires participant review where independent authorship is required.
 
 Additional contracts: [quality requirements](requirements/quality.md), [storage and entity relationships](design/storage.md).
 

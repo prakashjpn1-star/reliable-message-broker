@@ -1,6 +1,6 @@
 # Primary technical references
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+These primary references explain the underlying concepts. The project’s own contracts define its narrower local guarantees.
 
 ## Primary references
 

@@ -1,6 +1,6 @@
 # API contract
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+The API exposes durable mutations and bounded reads. Each operation defines its identity, revision checks, response and retry behavior.
 
 ## API contract
 

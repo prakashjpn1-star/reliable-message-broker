@@ -1,6 +1,6 @@
 # Local access and threat model
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+The runtime is a local demonstration with fictional roles and generated data. Access checks protect loopback APIs without claiming production authentication.
 
 ## Local access and operational limits
 

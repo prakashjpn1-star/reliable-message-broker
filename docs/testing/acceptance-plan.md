@@ -1,6 +1,6 @@
 # Acceptance and failure-test plan
 
-This release baseline retains the supplied requirement identifiers and behavioral boundaries. Detailed implementation choices are linked from the component design index.
+Acceptance scenarios check committed records at controlled failure boundaries. Every case remains NOT RUN until implementation evidence is recorded.
 
 ## Acceptance catalog
 
